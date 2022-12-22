@@ -37,7 +37,7 @@
             }
         }
         } else {
-        echo "0 results";
+            $_SESSION['error'] = "Invalid Credentials";
         }
 
         mysqli_close($conn);
@@ -61,7 +61,9 @@
         <h5>
             Login
         </h5>
-        <form class="row g-3" action="login.php" method="post">
+        
+        <div class="col-12 invalid-feedback"><?php if(isset($_SESSION['error'])){ echo $_SESSION['error']; }?></div>
+        <form class="row g-3 mb-5" action="login.php" method="post">
             <div class="col-6">
                 <label for="txtUsername" class="form-label">Username</label>
                 <input type="text" class="form-control" name="txtUsername" id="txtUsername" required>

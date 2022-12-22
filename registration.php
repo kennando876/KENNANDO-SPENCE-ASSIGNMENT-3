@@ -43,14 +43,21 @@
                 $fileProfilePhoto .= "femaledefault.jpg";
             }
         }
+        $emailexist = mysqli_query($conn, "SELECT Email FROM userinformation WHERE Email = '". $txtEmail."'");
 
-        $sql = "INSERT INTO userinformation(Password, Username, Firstname, Lastname, Gender, Address, Phone, Email, Role, ProfilePhoto, Active) 
-        VALUES ('".$txtPassword."','".$txtUsername."','".$txtFirstname."','".$txtLastname."','".$sltGender."','".$txtAddress."','".$txtTelephone."','".$txtEmail."','".$txtRole."','".$fileProfilePhoto."','".$txtStatus."')";
+        if (mysqli_num_rows($emailexist) > 0) {
+            $_SESSION['error'] = "Email already exist.";
+        }
+        else
+        {    
+            $sql = "INSERT INTO userinformation(Password, Username, Firstname, Lastname, Gender, Address, Phone, Email, Role, ProfilePhoto, Active) 
+            VALUES ('".$txtPassword."','".$txtUsername."','".$txtFirstname."','".$txtLastname."','".$sltGender."','".$txtAddress."','".$txtTelephone."','".$txtEmail."','".$txtRole."','".$fileProfilePhoto."','".$txtStatus."')";
 
-        if (mysqli_query($conn, $sql)) {
-            header('location: action.php');
-        } else {
-        echo "Error: " . $sql . "<br>" . mysqli_error($conn);
+            if (mysqli_query($conn, $sql)) {
+                header('location: action.php');
+            } else {
+            echo "Error: " . $sql . "<br>" . mysqli_error($conn);
+            }
         }
 
         mysqli_close($conn);
@@ -74,6 +81,7 @@
         <h5>
             Registration
         </h5>
+        <div class="invalid-feedback"><?php if(isset($_SESSION['error'])){ echo $_SESSION['error']; }?></div>
         <form class="row g-3" action="registration.php" method="post" enctype="multipart/form-data">
             <div class="col-12">
                 <label for="fileProfileImage" class="form-label mt-4">Profile Photo</label>
