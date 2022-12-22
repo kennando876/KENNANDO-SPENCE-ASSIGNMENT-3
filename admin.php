@@ -1,5 +1,7 @@
 <?php
     include_once('includes/header.php');
+    include_once('connection.php');
+
 
     if(isset($_SESSION['Role']) && $_SESSION['Role'] != 'Admin')
     {
@@ -11,10 +13,7 @@
         header('location: index.php');
     }
 
-    $servername = "localhost";
-    $username = "root";
-    $password = "";
-    $dbname = "SEPL";
+    
 
     // Create connection
     $conn = mysqli_connect($servername, $username, $password, $dbname);
